@@ -90,7 +90,7 @@
                     }
     #endif
                     //classification
-                    VNImageRequestHandler* faceClassificationHandler = [[VNImageRequestHandler alloc]initWithCIImage:image options:@{}];
+                    VNImageRequestHandler* faceClassificationHandler = [[VNImageRequestHandler alloc]initWithCIImage:croppedImage options:@{}];
                     VNCoreMLRequest* faceClassificationRequest = [[VNCoreMLRequest alloc]initWithModel:self->_faceClassificationModel];
                     faceClassificationRequest.imageCropAndScaleOption = VNImageCropAndScaleOptionScaleFit;
                     [faceClassificationHandler performRequests:@[faceClassificationRequest] error:nil];

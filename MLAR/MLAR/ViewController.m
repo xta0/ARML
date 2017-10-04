@@ -125,6 +125,7 @@
 const NSInteger kFaceRectangle = 10;
 - (void)display:(CGRect)normalizedRect withName:(NSString* )name{
     
+   
     [[self.view viewWithTag:kFaceRectangle] removeFromSuperview];
     if (!CGRectEqualToRect(normalizedRect, CGRectZero)) {
         
@@ -143,20 +144,20 @@ const NSInteger kFaceRectangle = 10;
         [self.view addSubview:view];
         
 //        dispatch_async(dispatch_get_main_queue(), ^{
-            
+//
+//             [self.sceneView.scene.rootNode.childNodes makeObjectsPerformSelector:@selector(removeFromParentNode)];
 //            CGPoint faceRectCenter = (CGPoint){CGRectGetMidX(faceRect),CGRectGetMidY(faceRect)};
 //            NSArray<ARHitTestResult* >* hitTestResults = [self.sceneView hitTest:faceRectCenter types:ARHitTestResultTypeFeaturePoint];
 //            if(hitTestResults.count > 0){
 //                //get the first
 //                ARHitTestResult* firstResult = hitTestResults.firstObject;
 //                SCNVector3 postion = positionFromTransformMatrix(firstResult.worldTransform);
-//                SCNNode* textNode = [ARTextNode nodeWithText:name Position:postion];
 //
-//                [self.sceneView.scene.rootNode.childNodes makeObjectsPerformSelector:@selector(removeFromParentNode)];
+//                SCNNode* textNode = [ARTextNode nodeWithText:name Position:postion];
 //                [self.sceneView.scene.rootNode addChildNode:textNode];
 //
 //            }
-            
+//
 //        });
     }
 }
