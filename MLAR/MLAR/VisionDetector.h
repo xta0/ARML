@@ -12,7 +12,7 @@
 @interface VisionDetector : NSObject
 
 - (id)initWithARSession:(ARSession* )session;
-- (void)detectingFaceswithCompletion:(void(^)(CGRect normalizedRect))result;
+- (void)detectingFaceswithCompletion:(void(^)(CGRect normalizedRect,NSString* name))result;
 
 
 @end

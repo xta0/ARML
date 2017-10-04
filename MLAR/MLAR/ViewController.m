@@ -13,6 +13,8 @@
 #import <Vision/Vision.h>
 #import <AVFoundation/AVFoundation.h>
 #import "VisionDetector.h"
+#import "ARTextNode.h"
+#import "Utils.h"
 
 @interface ViewController () <ARSCNViewDelegate,ARSessionDelegate>{}
 
@@ -47,10 +49,9 @@
         _faceDetector = [[VisionDetector alloc]initWithARSession:self.sceneView.session];
        
         __weak ViewController* weakSelf = self;
-        [_faceDetector detectingFaceswithCompletion:^(CGRect normalizedRect) {
-            
-            [weakSelf showFaceRectangle:normalizedRect];
-            
+        [_faceDetector detectingFaceswithCompletion:^(CGRect normalizedRect, NSString* name) {
+            //fresh UI
+            [weakSelf display:normalizedRect withName:name];
         }];
     });
     
@@ -95,7 +96,7 @@
                     {
                         if([captureDevice lockForConfiguration:nil]){
                             [captureSession beginConfiguration];
-                            captureDevice.focusMode = AVCaptureFocusModeAutoFocus;
+                            captureDevice.focusMode = AVCaptureFocusModeContinuousAutoFocus;
                             captureDevice.smoothAutoFocusEnabled = YES;
                             [captureDevice unlockForConfiguration];
                         }
@@ -115,27 +116,14 @@
 //this is tricky
 - (void)session:(ARSession *)session didUpdateFrame:(ARFrame *)frame{
     
-//    [[VisionDetector sharedInstance] detectingFaces:session.currentFrame.capturedImage withCompletion:^(CGRect normalizedRect) {
-//
-//        //1,show face rectangle
-//        [self showFaceRectangle:normalizedRect];
-//
-//    }];
+    
 }
 
 
 #pragma mark - private methods
 
-static inline CGRect transformNormalizedBoundingRect(CGSize ScreenSize , CGRect normalizedRect){
-    
-    CGSize sz = CGSizeMake(normalizedRect.size.width*ScreenSize.width, normalizedRect.size.height*ScreenSize.height);
-    CGPoint pt = CGPointMake(normalizedRect.origin.x*ScreenSize.width, ScreenSize.height*(1-normalizedRect.origin.y-normalizedRect.size.height));
-    return (CGRect){pt,sz};
-}
-
-
 const NSInteger kFaceRectangle = 10;
-- (void)showFaceRectangle:(CGRect) normalizedRect{
+- (void)display:(CGRect)normalizedRect withName:(NSString* )name{
     
     [[self.view viewWithTag:kFaceRectangle] removeFromSuperview];
     if (!CGRectEqualToRect(normalizedRect, CGRectZero)) {
@@ -144,13 +132,36 @@ const NSInteger kFaceRectangle = 10;
         CGRect faceRect = transformNormalizedBoundingRect(self.view.bounds.size, normalizedRect);
         UIView* view = [[UIView alloc]initWithFrame:faceRect];
         view.tag = kFaceRectangle;
-        view.alpha = 0.3;
+        view.alpha = 0.2;
         view.backgroundColor = [UIColor redColor];
+        UILabel* nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, (faceRect.size.height-20)/2, faceRect.size.width, 30)];
+        nameLabel.textColor = [UIColor yellowColor];
+        nameLabel.textAlignment = NSTextAlignmentCenter;
+        nameLabel.font = [UIFont systemFontOfSize:20.0f];
+        nameLabel.text = name;
+        [view addSubview:nameLabel];
         [self.view addSubview:view];
         
+//        dispatch_async(dispatch_get_main_queue(), ^{
+            
+//            CGPoint faceRectCenter = (CGPoint){CGRectGetMidX(faceRect),CGRectGetMidY(faceRect)};
+//            NSArray<ARHitTestResult* >* hitTestResults = [self.sceneView hitTest:faceRectCenter types:ARHitTestResultTypeFeaturePoint];
+//            if(hitTestResults.count > 0){
+//                //get the first
+//                ARHitTestResult* firstResult = hitTestResults.firstObject;
+//                SCNVector3 postion = positionFromTransformMatrix(firstResult.worldTransform);
+//                SCNNode* textNode = [ARTextNode nodeWithText:name Position:postion];
+//
+//                [self.sceneView.scene.rootNode.childNodes makeObjectsPerformSelector:@selector(removeFromParentNode)];
+//                [self.sceneView.scene.rootNode addChildNode:textNode];
+//
+//            }
+            
+//        });
     }
-    
 }
+
+
 
 
 @end
