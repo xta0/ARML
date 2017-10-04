@@ -15,7 +15,7 @@
 		45B428B81F846B5F000A835C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B428B71F846B5F000A835C /* main.m */; };
 		45B428C11F846BB1000A835C /* privateHeader.txt in Resources */ = {isa = PBXBuildFile; fileRef = 45B428BE1F846BB1000A835C /* privateHeader.txt */; };
 		45B428C21F846BB1000A835C /* VisionDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B428BF1F846BB1000A835C /* VisionDetector.m */; };
-		45B428C71F849052000A835C /* face.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 45B428C31F847B6E000A835C /* face.mlmodel */; };
+		45B428C91F84AE82000A835C /* Face04.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 45B428C81F84AE55000A835C /* Face04.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,7 +32,7 @@
 		45B428BE1F846BB1000A835C /* privateHeader.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = privateHeader.txt; sourceTree = "<group>"; };
 		45B428BF1F846BB1000A835C /* VisionDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VisionDetector.m; sourceTree = "<group>"; };
 		45B428C01F846BB1000A835C /* VisionDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisionDetector.h; sourceTree = "<group>"; };
-		45B428C31F847B6E000A835C /* face.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = face.mlmodel; sourceTree = "<group>"; };
+		45B428C81F84AE55000A835C /* Face04.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Face04.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +65,7 @@
 		45B428A51F846B5F000A835C /* MLAR */ = {
 			isa = PBXGroup;
 			children = (
-				45B428C31F847B6E000A835C /* face.mlmodel */,
+				45B428C81F84AE55000A835C /* Face04.mlmodel */,
 				45B428BE1F846BB1000A835C /* privateHeader.txt */,
 				45B428C01F846BB1000A835C /* VisionDetector.h */,
 				45B428BF1F846BB1000A835C /* VisionDetector.m */,
@@ -154,7 +154,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45B428C71F849052000A835C /* face.mlmodel in Sources */,
+				45B428C91F84AE82000A835C /* Face04.mlmodel in Sources */,
 				45B428AD1F846B5F000A835C /* ViewController.m in Sources */,
 				45B428C21F846BB1000A835C /* VisionDetector.m in Sources */,
 				45B428B81F846B5F000A835C /* main.m in Sources */,

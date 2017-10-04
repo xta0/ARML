@@ -11,11 +11,10 @@
 #import <Vision/Vision.h>
 #import <CoreML/CoreML.h>
 #import <UIKit/UIKit.h>
-#import "face.h"
+#import "Face04.h"
 
 
 #define __test__ 0
-
 @implementation VisionDetector{
     
     __weak ARSession* _arSession;
@@ -31,7 +30,7 @@
         _arSession = session;
         
         //get coreml model
-        _faceClassificationModel = [VNCoreMLModel modelForMLModel:[[face new] model] error:nil];
+        _faceClassificationModel = [VNCoreMLModel modelForMLModel:[[Face04 new] model] error:nil];
         
         
     }
@@ -77,7 +76,7 @@ static inline CGRect croppedRectFunc(CGRect faceRect, CGRect imageRect);
                     UIImage *image = [UIImage imageWithCGImage:cgImage];
                     CGImageRelease(cgImage);
                     UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-                    _test = true;
+                   
                     NSLog(@"saved!");
 
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -96,10 +95,11 @@ static inline CGRect croppedRectFunc(CGRect faceRect, CGRect imageRect);
                 VNCoreMLRequest* faceClassificationRequest = [[VNCoreMLRequest alloc]initWithModel:self->_faceClassificationModel];
                 faceClassificationRequest.imageCropAndScaleOption = VNImageCropAndScaleOptionScaleFit;
                 [faceClassificationHandler performRequests:@[faceClassificationRequest] error:nil];
-                NSArray* classifiedResults = faceDetectRequest.results;
+                NSArray* classifiedResults = faceClassificationRequest.results;
                 if (classifiedResults.count >0 ) {
-                    VNClassificationObservation* bestResult = classifiedResults.firstObject;
-                          NSLog(@"Identify Faces:<%@,%.1f>",bestResult.identifier, bestResult.confidence);
+                    for(VNClassificationObservation* result in classifiedResults){
+                         NSLog(@"Identify Faces:<%@,%.1f>",result.identifier, result.confidence);
+                    }
                 }
                 else{
                     NSLog(@"Unknown Faces");
