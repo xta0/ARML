@@ -7,56 +7,41 @@
 //
 
 #import "VisionDetector.h"
+#import <ARKit/ARKit.h>
 #import <Vision/Vision.h>
 #import <UIKit/UIKit.h>
 
 
 @implementation VisionDetector{
     
+    __weak ARSession* _arSession;
     dispatch_queue_t _faceTrackingQueue;
-    CVPixelBufferRef _copiedPixelBufferRef;
-    
-    VNSequenceRequestHandler* _faceRectDetector;
-    VNDetectFaceRectanglesRequest* _faceRectRequest;
-    
+    VNCoreMLRequest* _faceClassificationRequest;
 }
 
-+ (instancetype)sharedInstance{
-    
-    static dispatch_once_t onceToken = 0;
-    static VisionDetector* instance = nil;
-    dispatch_once(&onceToken, ^{
-        instance = [VisionDetector new];
-    });
-    return instance;
-}
-
-
-extern NSString* NSStringFromCGRect(CGRect rect);
-- (id)init{
+- (id)initWithARSession:(ARSession* )session{
     self = [super init];
     if (self) {
-    
-        _faceTrackingQueue = dispatch_queue_create("face-tracking", DISPATCH_QUEUE_SERIAL);
-        _faceRectDetector = [VNSequenceRequestHandler new];
-        _faceRectRequest = [VNDetectFaceRectanglesRequest new];
-        
-
+         _faceTrackingQueue = dispatch_queue_create("face-tracking", DISPATCH_QUEUE_SERIAL);
+        _arSession = session;
     }
     return self;
     
 }
 
-
-- (void)detectingFaces:(CVPixelBufferRef)pixelBuffer withCompletion:(void(^)(CGRect normalizedRect))result{
-
-    _copiedPixelBufferRef  = pixelBuffer; //create a copy here
+- (void)detectingFaceswithCompletion:(void (^)(CGRect))result{
     
+    __weak typeof(self) weakSelf = self;
     dispatch_async(_faceTrackingQueue, ^{
-//        CIImage* image = [[CIImage imageWithCVPixelBuffer:pixelBuffer] imageByApplyingCGOrientation:kCGImagePropertyOrientationRight];
-//        [_faceRectDetector performRequests:@[_faceRectRequest] onCIImage:image error:nil];
-        [_faceRectDetector performRequests:@[_faceRectRequest] onCIImage:[CIImage imageWithCVPixelBuffer:_copiedPixelBufferRef] orientation:kCGImagePropertyOrientationRight error:nil];
-        NSArray* results = _faceRectRequest.results;
+
+        CIImage* image = [[CIImage imageWithCVPixelBuffer:_arSession.currentFrame.capturedImage] imageByApplyingCGOrientation:kCGImagePropertyOrientationRight];
+       
+        //face tracking
+        VNImageRequestHandler* faceDetectHandler = [[VNImageRequestHandler alloc]initWithCIImage:image options:@{}];
+        VNDetectFaceRectanglesRequest* faceDetectRequest = [VNDetectFaceRectanglesRequest new];
+        [faceDetectHandler performRequests:@[faceDetectRequest] error:nil];
+    
+        NSArray* results = faceDetectRequest.results;
         if (results.count > 0) {
             //get first one
             VNFaceObservation* observation = results.firstObject;
@@ -65,19 +50,24 @@ extern NSString* NSStringFromCGRect(CGRect rect);
                 //get bounding rect
                 CGRect faceRectangle = observation.boundingBox;
                 
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    result(faceRectangle);
-                });
+                 dispatch_async(dispatch_get_main_queue(), ^{
+                     result(faceRectangle);
+                 });
             }
             
         }else{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                result(CGRectZero);
-            });
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    result(CGRectZero);
+                });
         }
+    
+        //loop back
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [weakSelf detectingFaceswithCompletion:result];
+        });
+        
     });
 }
-
 
 @end
 

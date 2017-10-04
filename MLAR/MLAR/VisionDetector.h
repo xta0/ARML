@@ -6,14 +6,13 @@
 //  Copyright © 2017年 Vizlab. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <CoreImage/CoreImage.h>
+#import <UIKit/UIKit.h>
 
+@class ARSession;
 @interface VisionDetector : NSObject
 
-+ (instancetype)sharedInstance;
-
-- (void)detectingFaces:(CVPixelBufferRef)pixelBuffer withCompletion:(void(^)(CGRect normalizedRect))result;
+- (id)initWithARSession:(ARSession* )session;
+- (void)detectingFaceswithCompletion:(void(^)(CGRect normalizedRect))result;
 
 
 @end

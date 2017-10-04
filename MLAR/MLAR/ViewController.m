@@ -14,7 +14,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "VisionDetector.h"
 
-@interface ViewController () <ARSCNViewDelegate,ARSessionDelegate>
+@interface ViewController () <ARSCNViewDelegate,ARSessionDelegate>{}
 
 @property (nonatomic, strong)ARSCNView *sceneView;
 
@@ -22,7 +22,7 @@
 @end
 
 @implementation ViewController{
-    
+    VisionDetector* _faceDetector;
 }
 
 
@@ -36,18 +36,31 @@
     self.sceneView.autoenablesDefaultLighting = YES;
     [self.view addSubview:self.sceneView];
     
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
     //config session
     ARWorldTrackingConfiguration* configuration = [ARWorldTrackingConfiguration new];
     self.sceneView.session.delegate = self;
     [self.sceneView.session runWithConfiguration:configuration];
     
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        _faceDetector = [[VisionDetector alloc]initWithARSession:self.sceneView.session];
+       
+        __weak ViewController* weakSelf = self;
+        [_faceDetector detectingFaceswithCompletion:^(CGRect normalizedRect) {
+            
+            [weakSelf showFaceRectangle:normalizedRect];
+            
+        }];
+    });
+    
     
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+}
+
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -102,12 +115,12 @@
 
 - (void)session:(ARSession *)session didUpdateFrame:(ARFrame *)frame{
     
-    [[VisionDetector sharedInstance] detectingFaces:session.currentFrame.capturedImage withCompletion:^(CGRect normalizedRect) {
-        
-        //1,show face rectangle
-        [self showFaceRectangle:normalizedRect];
-        
-    }];
+//    [[VisionDetector sharedInstance] detectingFaces:session.currentFrame.capturedImage withCompletion:^(CGRect normalizedRect) {
+//
+//        //1,show face rectangle
+//        [self showFaceRectangle:normalizedRect];
+//
+//    }];
 }
 
 
