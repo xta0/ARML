@@ -41,6 +41,7 @@
     self.sceneView.session.delegate = self;
     [self.sceneView.session runWithConfiguration:configuration];
     
+    //let the camera initialize
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         _faceDetector = [[VisionDetector alloc]initWithARSession:self.sceneView.session];
@@ -72,9 +73,6 @@
     [super didReceiveMemoryWarning];
     // Release any cached data, images, etc that aren't in use.
 }
-
-#pragma mark - ARSCNViewDelegate
-
 
 
 
@@ -113,6 +111,8 @@
     
 }
 
+
+//this is tricky
 - (void)session:(ARSession *)session didUpdateFrame:(ARFrame *)frame{
     
 //    [[VisionDetector sharedInstance] detectingFaces:session.currentFrame.capturedImage withCompletion:^(CGRect normalizedRect) {
