@@ -60,15 +60,12 @@
                 //get first one
                 VNFaceObservation* observation = results.firstObject;
                 if(observation.confidence >= 0.8){
-                    
-                    NSLog(@"Found Faces");
                     //get bounding rect
                     CGRect faceRectangle = observation.boundingBox;
-             
-                    
+
                     //crop image
-                    CGRect croppedRect = cropRect(faceRectangle, image.extent);
-                    CIImage* croppedImage = [image imageByCroppingToRect:croppedRect];
+//                    CGRect croppedRect = cropRect(faceRectangle, image.extent);
+//                    CIImage* croppedImage = [image imageByCroppingToRect:croppedRect];
     #if __test__
                     static int x = 0;
                     __block void(^save)(void) = ^{
@@ -91,7 +88,7 @@
     #endif
                     //classification
 //                    VNImageRequestHandler* faceClassificationHandler = [[VNImageRequestHandler alloc]initWithCIImage:croppedImage options:@{}];
-                    VNImageRequestHandler* faceClassificationHandler = [[VNImageRequestHandler alloc]initWithCIImage:croppedImage options:@{}];
+                    VNImageRequestHandler* faceClassificationHandler = [[VNImageRequestHandler alloc]initWithCIImage:image options:@{}];
                     VNCoreMLRequest* faceClassificationRequest = [[VNCoreMLRequest alloc]initWithModel:self->_faceClassificationModel];
                     faceClassificationRequest.imageCropAndScaleOption = VNImageCropAndScaleOptionScaleFit;
                     [faceClassificationHandler performRequests:@[faceClassificationRequest] error:nil];

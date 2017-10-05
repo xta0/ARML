@@ -11,6 +11,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <ARKit/ARKit.h>
 #import <SceneKit/SceneKitTypes.h>
 
 
@@ -47,6 +48,21 @@ static inline float lengthOfVector(SCNVector3 v){
 
 static inline SCNVector3 positionFromTransformMatrix(matrix_float4x4 matrix){
     return SCNVector3Make(matrix.columns[3].x, matrix.columns[3].y, matrix.columns[3].z);
+}
+
+static inline SCNVector3 averagePostion(NSArray<ARHitTestResult* >* results){
+    
+    float x = 0;
+    float y = 0;
+    float z = 0;
+    NSUInteger count = results.count;
+    for(ARHitTestResult* result in results){
+        x += result.worldTransform.columns[3].x;
+        y += result.worldTransform.columns[3].y;
+        z += result.worldTransform.columns[3].z;
+    }
+    SCNVector3 v=   SCNVector3Make(x/count, y/count, z/count);
+    return v;
 }
 
 

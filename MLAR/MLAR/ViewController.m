@@ -120,6 +120,11 @@
     
 }
 
+- (void)renderer:(id<SCNSceneRenderer>)renderer updateAtTime:(NSTimeInterval)time{
+    
+    NSLog(@"%s",__func__);
+}
+
 
 #pragma mark - private methods
 
@@ -136,42 +141,57 @@ const NSInteger kFaceRectangle = 10;
         view.tag = kFaceRectangle;
         view.alpha = 0.2;
         view.backgroundColor = [UIColor redColor];
-//        UILabel* nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, (faceRect.size.height-20)/2, faceRect.size.width, 30)];
-//        nameLabel.textColor = [UIColor yellowColor];
-//        nameLabel.textAlignment = NSTextAlignmentCenter;
-//        nameLabel.font = [UIFont systemFontOfSize:20.0f];
-//        nameLabel.text = name;
-//        [view addSubview:nameLabel];
+        UILabel* nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, (faceRect.size.height-20)/2, faceRect.size.width, 30)];
+        nameLabel.textColor = [UIColor yellowColor];
+        nameLabel.textAlignment = NSTextAlignmentCenter;
+        nameLabel.font = [UIFont systemFontOfSize:20.0f];
+        nameLabel.text = name;
+        [view addSubview:nameLabel];
         [self.view addSubview:view];
         
-            if(![name isEqualToString:@"unknown"]){
-                CGPoint faceRectCenter = (CGPoint){CGRectGetMidX(faceRect),CGRectGetMidY(faceRect)};
+        if(![name isEqualToString:@"unknown"]){
+            CGPoint faceRectCenter = (CGPoint){CGRectGetMidX(faceRect),CGRectGetMidY(faceRect)};
+            
+            
+            __block NSMutableArray<ARHitTestResult* >* testResults = [NSMutableArray new];
+            
+            void(^hitTest)(void) = ^{
+              
                 NSArray<ARHitTestResult* >* hitTestResults = [self.sceneView hitTest:faceRectCenter types:ARHitTestResultTypeFeaturePoint];
                 if(hitTestResults.count > 0){
-                    
                     //get the first
                     ARHitTestResult* firstResult = nil;
                     for (ARHitTestResult* result in hitTestResults) {
                         if (result.distance > 0.10) {
                             firstResult = result;
+                            [testResults addObject:firstResult];
                             break;
                         }
                     }
-                    SCNVector3 postion = positionFromTransformMatrix(firstResult.worldTransform);
-                    NSLog(@"<%.1f,%.1f,%.1f>",postion.x,postion.y,postion.z);
-                   __block SCNNode* textNode = [ARTextNode nodeWithText:name Position:postion];
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                       
-                        [self.sceneView.scene.rootNode addChildNode:textNode];
-                        [textNode show];
-                    });
                 }
-                else{
-                    NSLog(@"HitTest invalid");
-                }
+            };
+            
+            //3次求平均值，防止漂移
+            for(int i=0; i<3; i++){
+                hitTest();
+                usleep(12000);
             }
-       
+            
+            if(testResults.count > 0){
+                
+                SCNVector3 postion = averagePostion([testResults copy]);
+                 NSLog(@"<%.1f,%.1f,%.1f>",postion.x,postion.y,postion.z);
+                __block SCNNode* textNode = [ARTextNode nodeWithText:name Position:postion];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.sceneView.scene.rootNode addChildNode:textNode];
+                    [textNode show];
+                });
+            }
+            else{
+                NSLog(@"HitTest invalid");
+            }
+        }
     }
 }
 
