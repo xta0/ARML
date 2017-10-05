@@ -14,3 +14,12 @@
 + (SCNNode* )nodeWithText:(NSString* )name Position:(SCNVector3)pos;
 
 @end
+
+
+@interface SCNNode(animation)
+
+- (void)show;
+- (void)hide;
+
+
+@end

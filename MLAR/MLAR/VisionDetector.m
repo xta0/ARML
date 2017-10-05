@@ -11,7 +11,7 @@
 #import <Vision/Vision.h>
 #import <CoreML/CoreML.h>
 #import <UIKit/UIKit.h>
-#import "Face05.h"
+#import "Face09.h"
 #import "Utils.h"
 
 
@@ -31,7 +31,7 @@
         _arSession = session;
         
         //get coreml model
-        _faceClassificationModel = [VNCoreMLModel modelForMLModel:[[Face05 new] model] error:nil];
+        _faceClassificationModel = [VNCoreMLModel modelForMLModel:[[Face09 new] model] error:nil];
         
         
     }
@@ -90,6 +90,7 @@
                     }
     #endif
                     //classification
+//                    VNImageRequestHandler* faceClassificationHandler = [[VNImageRequestHandler alloc]initWithCIImage:croppedImage options:@{}];
                     VNImageRequestHandler* faceClassificationHandler = [[VNImageRequestHandler alloc]initWithCIImage:croppedImage options:@{}];
                     VNCoreMLRequest* faceClassificationRequest = [[VNCoreMLRequest alloc]initWithModel:self->_faceClassificationModel];
                     faceClassificationRequest.imageCropAndScaleOption = VNImageCropAndScaleOptionScaleFit;
@@ -98,9 +99,8 @@
                     if (classifiedResults.count >0 ) {
                        
                         for(VNClassificationObservation* result in classifiedResults){
-                             NSLog(@"Identify Faces:<%@,%.1f>",result.identifier, result.confidence);
+                             NSLog(@"Possible Faces:<%@,%.1f>",result.identifier, result.confidence);
                         }
-                        
                         VNClassificationObservation* bestResult = classifiedResults.firstObject;
                         if (bestResult.confidence > 0.5) {
                             dispatch_async(dispatch_get_main_queue(), ^{

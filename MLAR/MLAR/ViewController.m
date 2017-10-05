@@ -40,6 +40,7 @@
     
     //config session
     ARWorldTrackingConfiguration* configuration = [ARWorldTrackingConfiguration new];
+    configuration.planeDetection = ARPlaneDetectionHorizontal;
     self.sceneView.session.delegate = self;
     [self.sceneView.session runWithConfiguration:configuration];
     
@@ -96,7 +97,7 @@
                     {
                         if([captureDevice lockForConfiguration:nil]){
                             [captureSession beginConfiguration];
-                            captureDevice.focusMode = AVCaptureFocusModeContinuousAutoFocus;
+                            captureDevice.focusMode = AVCaptureFocusModeAutoFocus;
                             captureDevice.smoothAutoFocusEnabled = YES;
                             [captureDevice unlockForConfiguration];
                         }
@@ -125,7 +126,7 @@
 const NSInteger kFaceRectangle = 10;
 - (void)display:(CGRect)normalizedRect withName:(NSString* )name{
     
-   
+    [self.sceneView.scene.rootNode.childNodes makeObjectsPerformSelector:@selector(removeFromParentNode)];
     [[self.view viewWithTag:kFaceRectangle] removeFromSuperview];
     if (!CGRectEqualToRect(normalizedRect, CGRectZero)) {
         
@@ -135,30 +136,42 @@ const NSInteger kFaceRectangle = 10;
         view.tag = kFaceRectangle;
         view.alpha = 0.2;
         view.backgroundColor = [UIColor redColor];
-        UILabel* nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, (faceRect.size.height-20)/2, faceRect.size.width, 30)];
-        nameLabel.textColor = [UIColor yellowColor];
-        nameLabel.textAlignment = NSTextAlignmentCenter;
-        nameLabel.font = [UIFont systemFontOfSize:20.0f];
-        nameLabel.text = name;
-        [view addSubview:nameLabel];
+//        UILabel* nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, (faceRect.size.height-20)/2, faceRect.size.width, 30)];
+//        nameLabel.textColor = [UIColor yellowColor];
+//        nameLabel.textAlignment = NSTextAlignmentCenter;
+//        nameLabel.font = [UIFont systemFontOfSize:20.0f];
+//        nameLabel.text = name;
+//        [view addSubview:nameLabel];
         [self.view addSubview:view];
         
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//
-//             [self.sceneView.scene.rootNode.childNodes makeObjectsPerformSelector:@selector(removeFromParentNode)];
-//            CGPoint faceRectCenter = (CGPoint){CGRectGetMidX(faceRect),CGRectGetMidY(faceRect)};
-//            NSArray<ARHitTestResult* >* hitTestResults = [self.sceneView hitTest:faceRectCenter types:ARHitTestResultTypeFeaturePoint];
-//            if(hitTestResults.count > 0){
-//                //get the first
-//                ARHitTestResult* firstResult = hitTestResults.firstObject;
-//                SCNVector3 postion = positionFromTransformMatrix(firstResult.worldTransform);
-//
-//                SCNNode* textNode = [ARTextNode nodeWithText:name Position:postion];
-//                [self.sceneView.scene.rootNode addChildNode:textNode];
-//
-//            }
-//
-//        });
+            if(![name isEqualToString:@"unknown"]){
+                CGPoint faceRectCenter = (CGPoint){CGRectGetMidX(faceRect),CGRectGetMidY(faceRect)};
+                NSArray<ARHitTestResult* >* hitTestResults = [self.sceneView hitTest:faceRectCenter types:ARHitTestResultTypeFeaturePoint];
+                if(hitTestResults.count > 0){
+                    
+                    //get the first
+                    ARHitTestResult* firstResult = nil;
+                    for (ARHitTestResult* result in hitTestResults) {
+                        if (result.distance > 0.10) {
+                            firstResult = result;
+                            break;
+                        }
+                    }
+                    SCNVector3 postion = positionFromTransformMatrix(firstResult.worldTransform);
+                    NSLog(@"<%.1f,%.1f,%.1f>",postion.x,postion.y,postion.z);
+                   __block SCNNode* textNode = [ARTextNode nodeWithText:name Position:postion];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                       
+                        [self.sceneView.scene.rootNode addChildNode:textNode];
+                        [textNode show];
+                    });
+                }
+                else{
+                    NSLog(@"HitTest invalid");
+                }
+            }
+       
     }
 }
 
