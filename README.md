@@ -13,7 +13,7 @@ This demo project demonstrates how to identify faces using Apple's new Vision,Co
 - **Camera Hacking** : Since ARkit uses a fixed-lense camera to render the screen, the camera won't auto-focus by itself. To tune the camere you need to get access to the `AVCaptureDevice`or`AVCaptureSession `. However, this is not possible in ARKit as described [here](https://forums.developer.apple.com/thread/81971) . I solve this by accessing the `availableSenors` property of the `ARSesion` at runtime and find the `ARImageSensor` which holds the reference to the `AVCaptureDevice` and `AVCaptureSession` object. 
 
  
-- **Machine Learning**: To identity different people you need a pre-trained CoreML model. You can use caffe or other neural network Infrastructure to train your model. But it takes some time to implement from scratch. I found  Mircorsoft's [Custom Vision Serivce](https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/home) very convenient to trained the images online and get the reslut as a CoreML model.
+- **Machine Learning**: To identity different people you need a pre-trained CoreML model. You can use caffe or other neural network Infrastructure to train your model. But it takes some time to implement from scratch. I found  Mircorsoft's [Custom Vision Serivce](https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/home) very convenient to train  images online and get the reslut as a CoreML model.
 
 
 ## Acknowledgements
