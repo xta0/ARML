@@ -11,7 +11,7 @@
 #import <Vision/Vision.h>
 #import <CoreML/CoreML.h>
 #import <UIKit/UIKit.h>
-#import "Face09.h"
+#import "Face10.h"
 #import "Utils.h"
 
 
@@ -31,7 +31,7 @@
         _arSession = session;
         
         //get coreml model
-        _faceClassificationModel = [VNCoreMLModel modelForMLModel:[[Face09 new] model] error:nil];
+        _faceClassificationModel = [VNCoreMLModel modelForMLModel:[[Face10 new] model] error:nil];
         
         
     }

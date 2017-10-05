@@ -114,18 +114,6 @@
 }
 
 
-//this is tricky
-- (void)session:(ARSession *)session didUpdateFrame:(ARFrame *)frame{
-    
-    
-}
-
-- (void)renderer:(id<SCNSceneRenderer>)renderer updateAtTime:(NSTimeInterval)time{
-    
-    NSLog(@"%s",__func__);
-}
-
-
 #pragma mark - private methods
 
 const NSInteger kFaceRectangle = 10;
@@ -150,9 +138,8 @@ const NSInteger kFaceRectangle = 10;
         [self.view addSubview:view];
         
         if(![name isEqualToString:@"unknown"]){
+            
             CGPoint faceRectCenter = (CGPoint){CGRectGetMidX(faceRect),CGRectGetMidY(faceRect)};
-            
-            
             __block NSMutableArray<ARHitTestResult* >* testResults = [NSMutableArray new];
             
             void(^hitTest)(void) = ^{

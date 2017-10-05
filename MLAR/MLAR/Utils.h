@@ -22,13 +22,6 @@ static inline CGRect transformNormalizedBoundingRect(CGSize ScreenSize , CGRect 
     return (CGRect){pt,sz};
 }
 
-static inline CGRect _transformNormalizedBoundingRect(CGSize ScreenSize , CGRect normalizedRect){
-    
-    CGSize sz = CGSizeMake(normalizedRect.size.width*ScreenSize.width, normalizedRect.size.height*ScreenSize.height);
-    CGPoint pt = CGPointMake(CGRectGetMinX(normalizedRect)*ScreenSize.width, ScreenSize.height*(1-CGRectGetMaxY(normalizedRect)));
-    return (CGRect){pt,sz};
-}
-
 static inline CGRect cropRect(CGRect faceRect, CGRect imageRect){
     
     float w = faceRect.size.width*imageRect.size.width;
