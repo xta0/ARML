@@ -21,6 +21,11 @@ This demo project demonstrates how to identify faces using Apple's new Vision,Co
 - [CoreML-in-ARKit](https://github.com/hanleyweng/CoreML-in-ARKit)
 - [spiderpig](https://github.com/biscuitehh/spiderpig)
 
+## Resources
+- Link to [CoreML documentation](https://developer.apple.com/documentation/coreml)
+- Link Apple WWDC videos, samples, and materials for information on [CoreML](https://developer.apple.com/videos/play/wwdc2017/710) and [Vision Framework](https://developer.apple.com/videos/play/wwdc2017/506/)
+- Link to [Custom Vision Service Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/home)
+
 ## ScreenShot
 
 ![](./screenshot.jpeg)
