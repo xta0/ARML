@@ -27,5 +27,5 @@ This demo project demonstrates how to identify faces using Apple's new Vision,Co
 - Link to [Custom Vision Service Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/home)
 
 ## ScreenShot
+<img src="./screenshot.jpeg" width="200px"/>
 
-![](./screenshot.jpeg=100px)
