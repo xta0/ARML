@@ -97,7 +97,7 @@
                     {
                         if([captureDevice lockForConfiguration:nil]){
                             [captureSession beginConfiguration];
-                            captureDevice.focusMode = AVCaptureFocusModeAutoFocus;
+                            captureDevice.focusMode = AVCaptureFocusModeContinuousAutoFocus;
                             captureDevice.smoothAutoFocusEnabled = YES;
                             [captureDevice unlockForConfiguration];
                         }
@@ -161,7 +161,7 @@ const NSInteger kFaceRectangle = 10;
             //3次求平均值，防止漂移
             for(int i=0; i<3; i++){
                 hitTest();
-                usleep(12000);
+//                usleep(12000r);
             }
             
             if(testResults.count > 0){

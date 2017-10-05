@@ -17,9 +17,8 @@
 		45B428C21F846BB1000A835C /* VisionDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B428BF1F846BB1000A835C /* VisionDetector.m */; };
 		45B428CC1F85337D000A835C /* ARTextNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B428CB1F85337D000A835C /* ARTextNode.m */; };
 		45B428D81F85C558000A835C /* QQ.png in Resources */ = {isa = PBXBuildFile; fileRef = 45B428D71F85C558000A835C /* QQ.png */; };
-		45B428DA1F85D409000A835C /* NeNe.png in Resources */ = {isa = PBXBuildFile; fileRef = 45B428D91F85D408000A835C /* NeNe.png */; };
-		45B429021F85D5EA000A835C /* JJ.png in Resources */ = {isa = PBXBuildFile; fileRef = 45B429011F85D5EA000A835C /* JJ.png */; };
-		45B429041F85E367000A835C /* Face10.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 45B429031F85E360000A835C /* Face10.mlmodel */; };
+		45D12A261F867CDF00005797 /* Face11.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 45D12A251F867CD300005797 /* Face11.mlmodel */; };
+		45D12A281F867E7900005797 /* HH.png in Resources */ = {isa = PBXBuildFile; fileRef = 45D12A271F867E7900005797 /* HH.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,9 +39,8 @@
 		45B428CB1F85337D000A835C /* ARTextNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARTextNode.m; sourceTree = "<group>"; };
 		45B428CD1F856433000A835C /* Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		45B428D71F85C558000A835C /* QQ.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = QQ.png; sourceTree = "<group>"; };
-		45B428D91F85D408000A835C /* NeNe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NeNe.png; sourceTree = "<group>"; };
-		45B429011F85D5EA000A835C /* JJ.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = JJ.png; sourceTree = "<group>"; };
-		45B429031F85E360000A835C /* Face10.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Face10.mlmodel; sourceTree = "<group>"; };
+		45D12A251F867CD300005797 /* Face11.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Face11.mlmodel; sourceTree = "<group>"; };
+		45D12A271F867E7900005797 /* HH.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HH.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,10 +73,9 @@
 		45B428A51F846B5F000A835C /* MLAR */ = {
 			isa = PBXGroup;
 			children = (
-				45B429031F85E360000A835C /* Face10.mlmodel */,
+				45D12A271F867E7900005797 /* HH.png */,
+				45D12A251F867CD300005797 /* Face11.mlmodel */,
 				45B428BE1F846BB1000A835C /* privateHeader.txt */,
-				45B429011F85D5EA000A835C /* JJ.png */,
-				45B428D91F85D408000A835C /* NeNe.png */,
 				45B428D71F85C558000A835C /* QQ.png */,
 				45B428CD1F856433000A835C /* Utils.h */,
 				45B428C01F846BB1000A835C /* VisionDetector.h */,
@@ -157,10 +154,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				45B428B51F846B5F000A835C /* LaunchScreen.storyboard in Resources */,
+				45D12A281F867E7900005797 /* HH.png in Resources */,
 				45B428B21F846B5F000A835C /* Assets.xcassets in Resources */,
 				45B428B01F846B5F000A835C /* Main.storyboard in Resources */,
-				45B428DA1F85D409000A835C /* NeNe.png in Resources */,
-				45B429021F85D5EA000A835C /* JJ.png in Resources */,
 				45B428D81F85C558000A835C /* QQ.png in Resources */,
 				45B428C11F846BB1000A835C /* privateHeader.txt in Resources */,
 			);
@@ -173,7 +169,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45B429041F85E367000A835C /* Face10.mlmodel in Sources */,
+				45D12A261F867CDF00005797 /* Face11.mlmodel in Sources */,
 				45B428CC1F85337D000A835C /* ARTextNode.m in Sources */,
 				45B428AD1F846B5F000A835C /* ViewController.m in Sources */,
 				45B428C21F846BB1000A835C /* VisionDetector.m in Sources */,

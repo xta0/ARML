@@ -28,4 +28,5 @@ This demo project demonstrates how to identify faces using Apple's new Vision,Co
 
 ## ScreenShot
 
-![](./screenshot.jpeg)
+<img src="./screenshot.gif" width="480
+00px"/>
